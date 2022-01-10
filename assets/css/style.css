@@ -6,6 +6,14 @@
   display: none;
 }
 
+.checkbox3 {
+  display: none;
+}
+
+.checkbox4 {
+  display: none;
+}
+
 .active {
   display: inline;
 }
