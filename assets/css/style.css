@@ -2,6 +2,10 @@
   display: none;
 }
 
+.checkbox2 {
+  display: none;
+}
+
 .active {
   display: inline;
 }

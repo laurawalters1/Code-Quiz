@@ -11,7 +11,11 @@ var answer2 = document.getElementById("answer2");
 var answer3 = document.getElementById("answer3");
 var answer4 = document.getElementById("answer4");
 var checkboxes = document.querySelectorAll(".checkbox");
+var checkboxes2 = document.querySelectorAll(".checkbox2");
+var answers = document.querySelectorAll(".answers");
+var answers2 = document.querySelectorAll(".answers2");
 var score = document.getElementById("score");
+var scoreNum = 0;
 startbtn.addEventListener("click", function () {
   timer.textContent = 60;
   var timerInterval = setInterval(function () {
@@ -34,26 +38,59 @@ startbtn.addEventListener("click", function () {
   }
 });
 
-document.addEventListener("click", function () {
-  //for (i = 0; i < checkboxes.length; i++) {
-  //   if (checkboxes[i].checked) {
-  //     console.log(checkboxes[i]);
-  //   }
-  if (
-    checkboxes[1].checked &&
-    !checkboxes[0].checked &&
-    !checkboxes[2].checked &&
-    !checkboxes[3].checked
-  ) {
-    console.log("correct");
-    score.textContent += 1;
-  } else if (
-    checkboxes[0].checked ||
-    checkboxes[2].checked ||
-    checkboxes[3].checked
-  ) {
-    console.log("incorrect");
-    timer.textContent -= 5;
-  }
-  //  }
-});
+for (i = 0; i < checkboxes.length; i++) {
+  checkboxes[i].addEventListener("click", function () {
+    if (
+      checkboxes[1].checked &&
+      !checkboxes[0].checked &&
+      !checkboxes[2].checked &&
+      !checkboxes[3].checked
+    ) {
+      console.log("correct");
+      scoreNum += 1;
+      score.textContent = scoreNum;
+      question.textContent = "coding question 2";
+      console.log(scoreNum);
+    } else if (
+      checkboxes[0].checked ||
+      checkboxes[2].checked ||
+      checkboxes[3].checked
+    ) {
+      console.log("incorrect");
+      timer.textContent -= 5;
+    }
+    for (var i = 0; i < checkboxes.length; i++) {
+      checkboxes[i].style.display = "none";
+      answers[i].style.display = "none";
+      checkboxes2[i].style.display = "inline";
+      answers2[0].textContent = "answer 2.1";
+      answers2[1].textContent = "answer 2.2";
+      answers2[2].textContent = "answer 2.3";
+      answers2[3].textContent = "answer 2.4";
+    }
+  });
+}
+
+for (i = 0; i < answers2.length; i++) {
+  checkboxes2[i].addEventListener("click", function () {
+    if (
+      checkboxes2[3].checked &&
+      !checkboxes2[0].checked &&
+      !checkboxes2[2].checked &&
+      !checkboxes2[1].checked
+    ) {
+      console.log("correct");
+      scoreNum += 1;
+      score.textContent = scoreNum;
+      question.textContent = "coding question 2";
+      console.log(scoreNum);
+    } else if (
+      checkboxes2[0].checked ||
+      checkboxes2[2].checked ||
+      checkboxes2[1].checked
+    ) {
+      console.log("incorrect");
+      timer.textContent -= 5;
+    }
+  });
+}
