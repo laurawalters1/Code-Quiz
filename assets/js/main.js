@@ -20,11 +20,12 @@ var answers3 = document.querySelectorAll(".answers3");
 var answers4 = document.querySelectorAll(".answers4");
 var score = document.getElementById("score");
 var scoreNum = 0;
-startbtn.addEventListener("click", function () {
-  timer.textContent = 60;
+
+startbtn.addEventListener("click", function gamePlay() {
+  timer.textContent = 10;
   var timerInterval = setInterval(function () {
     timer.textContent -= 1;
-    if (timer.textContent == 0) {
+    if (timer.textContent <= 0) {
       clearInterval(timerInterval);
     }
   }, 1000);
@@ -41,6 +42,7 @@ startbtn.addEventListener("click", function () {
     checkboxes[i].style.display = "inline";
   }
 });
+//function ended here before
 
 for (i = 0; i < checkboxes.length; i++) {
   checkboxes[i].addEventListener("click", function () {
@@ -151,7 +153,7 @@ for (i = 0; i < answers3.length; i++) {
       answers4[1].textContent = "answer 4.2";
       answers4[2].textContent = "answer 4.3";
       answers4[3].textContent = "answer 4.4";
-      question.textContent = "coding question 4";
+      question.textContent = "Coding question 4";
     }
   });
 }
