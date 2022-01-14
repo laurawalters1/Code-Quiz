@@ -63,3 +63,11 @@ var pageContent = document.getElementById("content");
 var finalScore = document.getElementById("final-score");
 var scoreArray = [];
 var clearScores = document.getElementById("clearScores");
+
+// When the user hits the start button, the header and start button will disappear, the start timer and first round functions will be ran
+startBtn.addEventListener("click", function () {
+  startBtn.style.display = "none";
+  header.style.display = "none";
+  firstRound();
+  startTimer();
+});
