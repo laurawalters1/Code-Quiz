@@ -64,6 +64,133 @@ var finalScore = document.getElementById("final-score");
 var scoreArray = [];
 var clearScores = document.getElementById("clearScores");
 
+// The fourth round function replicates the third round function as seen below, with updated values
+
+function fourthRound() {
+  for (i = 0; i < question1.options.length; i++) {
+    questionText.textContent = question4.questionContent;
+    optionArray[i].textContent = question4.options[i];
+    optionArray[i].classList.remove(question3.classes[i]);
+    optionArray[i].classList.add(question4.classes[i]);
+    optionArray[i].addEventListener("click", function (event) {
+      if (event.currentTarget.classList.contains("incorrect.4")) {
+        console.log("incorrect.4");
+        timerDisplay.textContent -= 5;
+
+        var incorrectAnswer = setInterval(function () {
+          document.body.style.backgroundColor = "rgb(253, 87, 87)";
+        }, 1);
+        var clearIncorrect = setInterval(function () {
+          document.body.style.backgroundColor = "rgb(141, 175, 247)";
+          clearInterval(incorrectAnswer);
+          clearInterval(clearIncorrect);
+        }, 200);
+
+        fifthRound();
+      } else if (event.currentTarget.classList.contains("correct.4")) {
+        console.log("correct.4");
+        score += 1;
+        scoreDisplay.textContent = "Score: " + score;
+
+        var incorrectAnswer = setInterval(function () {
+          document.body.style.backgroundColor = "rgb(50, 205, 109)";
+        }, 1);
+        var clearIncorrect = setInterval(function () {
+          document.body.style.backgroundColor = "rgb(141, 175, 247)";
+          clearInterval(incorrectAnswer);
+          clearInterval(clearIncorrect);
+        }, 200);
+
+        fifthRound();
+      }
+    });
+  }
+}
+
+// The third round function replicates the second round function as seen below, with updated values
+function thirdRound() {
+  for (i = 0; i < question1.options.length; i++) {
+    questionText.textContent = question3.questionContent;
+    optionArray[i].textContent = question3.options[i];
+    optionArray[i].classList.remove(question2.classes[i]);
+    optionArray[i].classList.add(question3.classes[i]);
+    optionArray[i].addEventListener("click", function (event) {
+      if (event.currentTarget.classList.contains("incorrect.3")) {
+        console.log("incorrect.3");
+        timerDisplay.textContent -= 5;
+
+        var incorrectAnswer = setInterval(function () {
+          document.body.style.backgroundColor = "rgb(253, 87, 87)";
+        }, 1);
+        var clearIncorrect = setInterval(function () {
+          document.body.style.backgroundColor = "rgb(141, 175, 247)";
+          clearInterval(incorrectAnswer);
+          clearInterval(clearIncorrect);
+        }, 200);
+
+        fourthRound();
+      } else if (event.currentTarget.classList.contains("correct.3")) {
+        console.log("correct.3");
+        score += 1;
+        scoreDisplay.textContent = "Score: " + score;
+
+        var incorrectAnswer = setInterval(function () {
+          document.body.style.backgroundColor = "rgb(50, 205, 109)";
+        }, 1);
+        var clearIncorrect = setInterval(function () {
+          document.body.style.backgroundColor = "rgb(141, 175, 247)";
+          clearInterval(incorrectAnswer);
+          clearInterval(clearIncorrect);
+        }, 200);
+
+        fourthRound();
+      }
+    });
+  }
+}
+
+function secondRound() {
+  // The below for loop updates the text content of the question and options, and removes the previous correct/incorrect classes and replaces them with those
+  // that correspond with round 2,
+  for (i = 0; i < question1.options.length; i++) {
+    questionText.textContent = question2.questionContent;
+    optionArray[i].textContent = question2.options[i];
+    optionArray[i].classList.remove(question1.classes[i]);
+    optionArray[i].classList.add(question2.classes[i]);
+    optionArray[i].addEventListener("click", function (event) {
+      // The below if statement replicates that of the first round function
+      if (event.currentTarget.classList.contains("incorrect.2")) {
+        console.log("incorrect.2");
+        timerDisplay.textContent -= 5;
+        var incorrectAnswer = setInterval(function () {
+          document.body.style.backgroundColor = "rgb(253, 87, 87)";
+        }, 1);
+        var clearIncorrect = setInterval(function () {
+          document.body.style.backgroundColor = "rgb(141, 175, 247)";
+          clearInterval(incorrectAnswer);
+          clearInterval(clearIncorrect);
+        }, 200);
+
+        thirdRound();
+      } else if (event.currentTarget.classList.contains("correct.2")) {
+        console.log("correct.2");
+        score += 1;
+        scoreDisplay.textContent = "Score: " + score;
+        var incorrectAnswer = setInterval(function () {
+          document.body.style.backgroundColor = "rgb(50, 205, 109)";
+        }, 1);
+        var clearIncorrect = setInterval(function () {
+          document.body.style.backgroundColor = "rgb(141, 175, 247)";
+          clearInterval(incorrectAnswer);
+          clearInterval(clearIncorrect);
+        }, 200);
+
+        thirdRound();
+      }
+    });
+  }
+}
+
 // First round function
 function firstRound() {
   // For loop causes one button per option from the questions.[i].options array to be created, and assigns each of them a class from the questions[i].classes array
