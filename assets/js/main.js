@@ -63,6 +63,57 @@ var pageContent = document.getElementById("content");
 var finalScore = document.getElementById("final-score");
 var scoreArray = [];
 var clearScores = document.getElementById("clearScores");
+// Setting the text content for the highscore, and setting it to be responsive to null values to improve UI
+finalScore.textContent = finalScore.textContent =
+  "High Score - " +
+  localStorage.getItem("userName") +
+  ": " +
+  localStorage.getItem("userScore");
+if (
+  localStorage.getItem("userScore") === null &&
+  localStorage.getItem("userName") === null
+) {
+  finalScore.textContent = "High Score: 0";
+} else if (
+  localStorage.getItem("userScore") === null &&
+  localStorage.getItem("userName") === null
+) {
+  finalScore.textContent = "High Score: 0";
+} else if (localStorage.getItem("userName") === null) {
+  finalScore.textContent = "High Score: " + localStorage.getItem("userScore");
+}
+
+// Adding clear high score button which will clear local storage
+clearScores.addEventListener("click", function () {
+  localStorage.clear();
+  finalScore.textContent = "";
+});
+
+// Setting timer, the function of start timer is called when the user clicks the start button
+timerDisplay.textContent = 30;
+timerDisplay.style.display = "none";
+function startTimer() {
+  timerDisplay.style.display = "flex";
+  var timerInterval = setInterval(function () {
+    timerDisplay.textContent -= 1;
+    // Setting the timer to stop when the timer is == 0
+    if (timerDisplay.textContent == 0 || timerDisplay.textContent < 0) {
+      clearInterval(timerInterval);
+      timerDisplay.textContent = 0;
+      timerDisplay.style.display = "none";
+      console.log(score);
+      quizComplete();
+      // The below creates a start over button which will refresh the page for the user
+      var startOver = document.createElement("button");
+      startOver.classList.add("button");
+      startOver.textContent = "Start Over";
+      pageContent.append(startOver);
+      startOver.addEventListener("click", function () {
+        document.location.reload();
+      });
+    }
+  }, 1000);
+}
 
 function quizComplete() {
   // Setting the timer to stop when all questions are answered so that as above, the timer interval will be cleared just as it would if the timer had ran out
