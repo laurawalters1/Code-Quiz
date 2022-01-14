@@ -64,6 +64,51 @@ var finalScore = document.getElementById("final-score");
 var scoreArray = [];
 var clearScores = document.getElementById("clearScores");
 
+// Round 5 runs the quiz complete function when the user clicks on one of the options, as well as achieving the same functionality of other rounds in terms
+// of correct and incorrect answers, specified below
+function fifthRound() {
+  for (i = 0; i < question1.options.length; i++) {
+    questionText.textContent = question5.questionContent;
+    optionArray[i].textContent = question5.options[i];
+    optionArray[i].classList.remove(question4.classes[i]);
+    optionArray[i].classList.add(question5.classes[i]);
+    optionArray[i].addEventListener("click", function (event) {
+      // The below if statement resembles that of the functions below, however instead of calling another round, each if statement calls the quizComplete()
+      // function
+      if (event.currentTarget.classList.contains("incorrect.5")) {
+        console.log("incorrect.5");
+        timerDisplay.textContent -= 5;
+
+        var incorrectAnswer = setInterval(function () {
+          document.body.style.backgroundColor = "rgb(253, 87, 87)";
+        }, 1);
+        var clearIncorrect = setInterval(function () {
+          document.body.style.backgroundColor = "rgb(141, 175, 247)";
+          clearInterval(incorrectAnswer);
+          clearInterval(clearIncorrect);
+        }, 200);
+
+        quizComplete();
+      } else if (event.currentTarget.classList.contains("correct.5")) {
+        console.log("correct.5");
+        score += 1;
+        scoreDisplay.textContent = "Score: " + score;
+
+        var incorrectAnswer = setInterval(function () {
+          document.body.style.backgroundColor = "rgb(50, 205, 109)";
+        }, 1);
+        var clearIncorrect = setInterval(function () {
+          document.body.style.backgroundColor = "rgb(141, 175, 247)";
+          clearInterval(incorrectAnswer);
+          clearInterval(clearIncorrect);
+        }, 200);
+
+        quizComplete();
+      }
+    });
+  }
+}
+
 // The fourth round function replicates the third round function as seen below, with updated values
 
 function fourthRound() {
