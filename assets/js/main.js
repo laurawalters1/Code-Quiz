@@ -64,6 +64,59 @@ var finalScore = document.getElementById("final-score");
 var scoreArray = [];
 var clearScores = document.getElementById("clearScores");
 
+function quizComplete() {
+  // Setting the timer to stop when all questions are answered so that as above, the timer interval will be cleared just as it would if the timer had ran out
+  timerDisplay.textContent = 0;
+  // The below if statement checks if the current score is higher than the userScore saved in local storage, or if the score is equal to 0, if it is higher or =0 , then userScore in local
+  // storage is updated to be equal to the current score value
+  if (
+    score > localStorage.getItem("userScore") ||
+    localStorage.getItem("userScore") == null
+  ) {
+    localStorage.setItem("userScore", score);
+    scoreArray.push(localStorage.getItem("userScore"));
+    localStorage.setItem("scoreArray", JSON.stringify(scoreArray));
+    console.log(localStorage.getItem("scoreArray"));
+    // If the user has achieved a high score, or a score of 0 when no other scores were set, the user will have the option to input their name
+    // and record their score, if the user does not input a name, the score will be recorded anonymously
+    input.style.display = "flex";
+    form.style.display = "flex";
+    form.classList.add("inputActive");
+    submit.addEventListener("click", function (event) {
+      event.preventDefault();
+      var userName = localStorage.setItem("userName", input.value);
+      // Setting the text content of the final score to be responsive to local storage values so that the user can always see the highscore
+      finalScore.textContent =
+        "High Score - " +
+        localStorage.getItem("userName") +
+        ": " +
+        localStorage.getItem("userScore");
+      input.value = "";
+    });
+  }
+  // Below states what should happen if the current score is not higher than the userScore in local storage and is also responsive to null values
+  // The below does not need to check is userScore is null, as by default if the
+  else if (localStorage.getItem("userName") === null) {
+    finalScore.textContent = "High Score: " + localStorage.getItem("userScore");
+  } else {
+    localStorage.setItem("userScore", score);
+    scoreArray.push(localStorage.getItem("userScore"));
+
+    finalScore.textContent =
+      "High Score - " +
+      localStorage.getItem("userName") +
+      ": " +
+      localStorage.getItem("userScore");
+  }
+
+  // For loop removes question options from the screen when quiz is complete
+  for (var i = 0; i < optionArray.length; i++) {
+    optionArray[i].style.display = "none";
+  }
+  // Updates text content when quiz complete
+  questionText.textContent = "Game Over!";
+}
+
 // Round 5 runs the quiz complete function when the user clicks on one of the options, as well as achieving the same functionality of other rounds in terms
 // of correct and incorrect answers, specified below
 function fifthRound() {
