@@ -95,11 +95,13 @@ function startTimer() {
       startOver.addEventListener("click", function () {
         document.location.reload();
       });
-      var viewLeaderBoard = document.getElementById("viewLeaderBoard");
-      viewLeaderBoard.style.display = "flex";
-      viewLeaderBoard.classList.add("view-lb-btn");
+
       submit.addEventListener("click", function (event) {
+        var viewLeaderBoard = document.getElementById("viewLeaderBoard");
+        viewLeaderBoard.style.display = "flex";
+        viewLeaderBoard.classList.add("view-lb-btn");
         event.preventDefault();
+
         var existingEntries = JSON.parse(localStorage.getItem("allEntries"));
         if (existingEntries == null) {
           existingEntries = [];
