@@ -16,7 +16,7 @@
 			integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
 			crossorigin="anonymous"
 		/>
-		<link rel="stylesheet" href="style.css" />
+		<link rel="stylesheet" href="assets/css/style.css" />
 	</head>
 	<body>
 		<div id="content">
@@ -27,7 +27,7 @@
 			<h3 id="question"></h3>
 			<br />
 			<form class="form" id="form">
-				<h3 class="enterName">Enter your name to record your score</h3>
+				<h3 class="enterName">Enter your name to record your score, and then you can view the leaderboard!</h3>
 				<input class="input" id="input" type="text" />
 				<button type="submit" id="submit" class="button">Submit!</button>
 			</form>
@@ -42,8 +42,15 @@
 			<h1 id="final-score"></h1>
 			<br />
 			<br />
-			<button class="button" id="clearScores">Clear High-Score</button>
+            <button class="viewLeaderBoard" id="viewLeaderBoard">View Leader-board</button>
+			<button class="button" id="clearScores">Clear High-Scores</button>
 		</div>
-		<script src="main.js"></script>
+        <div class="leader-board" id="leader-board">
+            <ul class="leaderboard-list" id="leaderboard-list">
+
+            </ul>
+            <button class="startOver" id="startOver">Start Over</button>
+        </div>
+		<script src="assets/js/main.js"></script>
 	</body>
 </html>

@@ -8,6 +8,7 @@ var scoreDisplay = document.getElementById("score");
 var input = document.getElementById("input");
 var form = document.getElementById("form");
 var submit = document.getElementById("submit");
+var leaderBoardList = document.getElementById("leaderboard-list");
 var questions = [
   {
     questionContent: "In HTML, what does the tag ul stand for?",
@@ -63,25 +64,8 @@ var pageContent = document.getElementById("content");
 var finalScore = document.getElementById("final-score");
 var scoreArray = [];
 var clearScores = document.getElementById("clearScores");
-// Setting the text content for the highscore, and setting it to be responsive to null values to improve UI
-finalScore.textContent = finalScore.textContent =
-  "High Score - " +
-  localStorage.getItem("userName") +
-  ": " +
-  localStorage.getItem("userScore");
-if (
-  localStorage.getItem("userScore") === null &&
-  localStorage.getItem("userName") === null
-) {
-  finalScore.textContent = "High Score: 0";
-} else if (
-  localStorage.getItem("userScore") === null &&
-  localStorage.getItem("userName") === null
-) {
-  finalScore.textContent = "High Score: 0";
-} else if (localStorage.getItem("userName") === null) {
-  finalScore.textContent = "High Score: " + localStorage.getItem("userScore");
-}
+var leaderBoardDisplay = document.getElementById("leader-board");
+scoreDisplay.textContent = "Score: " + score;
 
 // Adding clear high score button which will clear local storage
 clearScores.addEventListener("click", function () {
@@ -111,6 +95,55 @@ function startTimer() {
       startOver.addEventListener("click", function () {
         document.location.reload();
       });
+      var viewLeaderBoard = document.getElementById("viewLeaderBoard");
+      viewLeaderBoard.style.display = "flex";
+      viewLeaderBoard.classList.add("view-lb-btn");
+      submit.addEventListener("click", function (event) {
+        event.preventDefault();
+        var existingEntries = JSON.parse(localStorage.getItem("allEntries"));
+        if (existingEntries == null) {
+          existingEntries = [];
+        }
+        var entry = {
+          score: score,
+          userName: input.value,
+        };
+        console.log(entry);
+        localStorage.setItem("entry", JSON.stringify(entry));
+        existingEntries.push(entry);
+        localStorage.setItem("allEntries", JSON.stringify(existingEntries));
+        viewLeaderBoard.style.display = "flex";
+        viewLeaderBoard.addEventListener(
+          "click",
+
+          function () {
+            var startOverBtn = document.getElementById("startOver");
+            startOverBtn.classList.add("button");
+            leaderBoardDisplay.classList.add("leader-board-active");
+            startOverBtn.addEventListener("click", function () {
+              document.location.reload();
+            });
+            existingEntries.sort((a, b) => {
+              return a.score - b.score;
+            });
+            reversedEntries = existingEntries.reverse();
+            pageContent.style.display = "none";
+            var leaderBoardContent = document.getElementById("leader-board");
+            leaderBoardContent.style.display = "flex";
+            leaderBoardContent.style.display = "flex";
+
+            for (i = 0; i < existingEntries.length; i++) {
+              var leaderBoardItem = document.createElement("li");
+              console.log(existingEntries[i]);
+              console.log(existingEntries[i].userName);
+              leaderBoardItem.textContent =
+                reversedEntries[i].userName + ": " + reversedEntries[i].score;
+              leaderBoardList.appendChild(leaderBoardItem);
+              //   console.log(localStorage.getItem("allEntries").toString());
+            }
+          }
+        );
+      });
     }
   }, 1000);
 }
@@ -118,47 +151,9 @@ function startTimer() {
 function quizComplete() {
   // Setting the timer to stop when all questions are answered so that as above, the timer interval will be cleared just as it would if the timer had ran out
   timerDisplay.textContent = 0;
-  // The below if statement checks if the current score is higher than the userScore saved in local storage, or if the score is equal to 0, if it is higher or =0 , then userScore in local
-  // storage is updated to be equal to the current score value
-  if (
-    score > localStorage.getItem("userScore") ||
-    localStorage.getItem("userScore") == null
-  ) {
-    localStorage.setItem("userScore", score);
-    scoreArray.push(localStorage.getItem("userScore"));
-    localStorage.setItem("scoreArray", JSON.stringify(scoreArray));
-    console.log(localStorage.getItem("scoreArray"));
-    // If the user has achieved a high score, or a score of 0 when no other scores were set, the user will have the option to input their name
-    // and record their score, if the user does not input a name, the score will be recorded anonymously
-    input.style.display = "flex";
-    form.style.display = "flex";
-    form.classList.add("inputActive");
-    submit.addEventListener("click", function (event) {
-      event.preventDefault();
-      var userName = localStorage.setItem("userName", input.value);
-      // Setting the text content of the final score to be responsive to local storage values so that the user can always see the highscore
-      finalScore.textContent =
-        "High Score - " +
-        localStorage.getItem("userName") +
-        ": " +
-        localStorage.getItem("userScore");
-      input.value = "";
-    });
-  }
-  // Below states what should happen if the current score is not higher than the userScore in local storage and is also responsive to null values
-  // The below does not need to check is userScore is null, as by default if the
-  else if (localStorage.getItem("userName") === null) {
-    finalScore.textContent = "High Score: " + localStorage.getItem("userScore");
-  } else {
-    localStorage.setItem("userScore", score);
-    scoreArray.push(localStorage.getItem("userScore"));
-
-    finalScore.textContent =
-      "High Score - " +
-      localStorage.getItem("userName") +
-      ": " +
-      localStorage.getItem("userScore");
-  }
+  input.style.display = "flex";
+  input.classList.add("inputActive");
+  form.classList.add("inputActive");
 
   // For loop removes question options from the screen when quiz is complete
   for (var i = 0; i < optionArray.length; i++) {
@@ -193,6 +188,54 @@ function fifthRound() {
         }, 200);
 
         quizComplete();
+        // var viewLeaderBoard = document.getElementById("viewLeaderBoard");
+        // submit.addEventListener("click", function (event) {
+        //   event.preventDefault();
+        //   var existingEntries = JSON.parse(localStorage.getItem("allEntries"));
+        //   if (existingEntries == null) {
+        //     existingEntries = [];
+        //   }
+        //   var entry = {
+        //     score: score,
+        //     userName: input.value,
+        //   };
+        //   console.log(entry);
+        //   localStorage.setItem("entry", JSON.stringify(entry));
+        //   existingEntries.push(entry);
+        //   localStorage.setItem("allEntries", JSON.stringify(existingEntries));
+        //   viewLeaderBoard.style.display = "flex";
+        //   viewLeaderBoard.addEventListener(
+        //     "click",
+
+        //     function () {
+        //       var startOverBtn = document.getElementById("startOver");
+        //       startOverBtn.classList.add("button");
+
+        //       pageContent.append(startOver);
+        //       startOver.addEventListener("click", function () {
+        //         document.location.reload();
+        //       });
+        //       existingEntries.sort((a, b) => {
+        //         return a.score - b.score;
+        //       });
+        //       reversedEntries = existingEntries.reverse();
+        //       pageContent.style.display = "none";
+        //       var leaderBoardContent = document.getElementById("leader-board");
+        //       leaderBoardContent.style.display = "flex";
+        //       leaderBoardContent.style.display = "flex";
+
+        //   for (i = 0; i < existingEntries.length; i++) {
+        //     var leaderBoardItem = document.createElement("li");
+        //     console.log(existingEntries[i]);
+        //     console.log(existingEntries[i].userName);
+        //     leaderBoardItem.textContent =
+        //       reversedEntries[i].userName + ": " + reversedEntries[i].score;
+        //     leaderBoardList.appendChild(leaderBoardItem);
+        //   console.log(localStorage.getItem("allEntries").toString());
+        //   }
+        // }
+        //   );
+        // });
       } else if (event.currentTarget.classList.contains("correct.5")) {
         console.log("correct.5");
         score += 1;
@@ -208,13 +251,60 @@ function fifthRound() {
         }, 200);
 
         quizComplete();
+        // var viewLeaderBoard = document.getElementById("viewLeaderBoard");
+        // submit.addEventListener("click", function (event) {
+        //   event.preventDefault();
+        //   var existingEntries = JSON.parse(localStorage.getItem("allEntries"));
+        //   if (existingEntries == null) {
+        //     existingEntries = [];
+        //   }
+        //   var entry = {
+        //     score: score,
+        //     userName: input.value,
+        //   };
+        //   console.log(entry);
+        //   localStorage.setItem("entry", JSON.stringify(entry));
+        //   existingEntries.push(entry);
+        //   localStorage.setItem("allEntries", JSON.stringify(existingEntries));
+        //   viewLeaderBoard.style.display = "flex";
+        //   viewLeaderBoard.addEventListener(
+        //     "click",
+
+        //     function () {
+        //       var startOverBtn = document.getElementById("startOver");
+        //       startOverBtn.classList.add("button");
+
+        //       pageContent.append(startOver);
+        //       startOver.addEventListener("click", function () {
+        //         document.location.reload();
+        //       });
+        //       existingEntries.sort((a, b) => {
+        //         return a.score - b.score;
+        //       });
+        //       reversedEntries = existingEntries.reverse();
+        //       console.log(existingEntries.length);
+        //       console.log(existingEntries);
+        //       pageContent.style.display = "none";
+        //       var leaderBoardContent = document.getElementById("leader-board");
+        //       leaderBoardContent.style.display = "flex";
+        //       leaderBoardContent.style.display = "flex";
+        //       for (i = 0; i < existingEntries.length; i++) {
+        //         var leaderBoardItem = document.createElement("li");
+        //         console.log(existingEntries[i]);
+        //         console.log(existingEntries[i].userName);
+        //         leaderBoardItem.textContent =
+        //           reversedEntries[i].userName + ": " + reversedEntries[i].score;
+        //         leaderBoardList.appendChild(leaderBoardItem);
+        //         //   console.log(localStorage.getItem("allEntries").toString());
+        //       }
+        // }
+        //   );
+        // });
       }
     });
   }
 }
-
 // The fourth round function replicates the third round function as seen below, with updated values
-
 function fourthRound() {
   for (i = 0; i < question1.options.length; i++) {
     questionText.textContent = question4.questionContent;
