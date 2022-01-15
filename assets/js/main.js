@@ -152,7 +152,11 @@ function startTimer() {
               console.log(existingEntries[i]);
               console.log(existingEntries[i].userName);
               leaderBoardItem.textContent =
-                reversedEntries[i].userName + ": " + reversedEntries[i].score;
+                [i + 1] +
+                ": " +
+                reversedEntries[i].userName +
+                " " +
+                reversedEntries[i].score;
               leaderBoardList.appendChild(leaderBoardItem);
             }
           }
