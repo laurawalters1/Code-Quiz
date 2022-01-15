@@ -96,44 +96,57 @@ function startTimer() {
         document.location.reload();
       });
 
+      // On submit the view leaderboard button will be made visible
       submit.addEventListener("click", function (event) {
         var viewLeaderBoard = document.getElementById("viewLeaderBoard");
         viewLeaderBoard.style.display = "flex";
         viewLeaderBoard.classList.add("view-lb-btn");
+        // Below prevents the page from refreshing
         event.preventDefault();
-
+        // Creating a variable and assigning its value to a local storage item parsed into an object
         var existingEntries = JSON.parse(localStorage.getItem("allEntries"));
+        // if the local storage item is empty, then it is equal to an empty array which an object will then be added to
         if (existingEntries == null) {
           existingEntries = [];
         }
+        // Creating object with userscore and username to go on leaderboard
         var entry = {
           score: score,
           userName: input.value,
         };
-        console.log(entry);
+        // Storing the above onject in local storage by converting it into a string
         localStorage.setItem("entry", JSON.stringify(entry));
+        // Pushing the user entry to the existing entry array
         existingEntries.push(entry);
+        // Setting the all entries local storage item to have the value of existing entries as a string
+        // so that they can be later accessed and parsed for future leaderboards
         localStorage.setItem("allEntries", JSON.stringify(existingEntries));
+        // Making the view LB button available to the user
         viewLeaderBoard.style.display = "flex";
         viewLeaderBoard.addEventListener(
           "click",
 
           function () {
+            // Making the startOver button available in leaderboardview
             var startOverBtn = document.getElementById("startOver");
             startOverBtn.classList.add("button");
             leaderBoardDisplay.classList.add("leader-board-active");
+            // Causing page to reload on click of start over
             startOverBtn.addEventListener("click", function () {
               document.location.reload();
             });
+            // Sorting existing entries array and then reversing so that they go from highest first
             existingEntries.sort((a, b) => {
               return a.score - b.score;
             });
             reversedEntries = existingEntries.reverse();
             pageContent.style.display = "none";
             var leaderBoardContent = document.getElementById("leader-board");
+            // Making the leaderboard visible
             leaderBoardContent.style.display = "flex";
             leaderBoardContent.style.display = "flex";
-
+            // Creating a leaderboard list item for each item in the existing entries array that
+            // will include user name and score
             for (i = 0; i < existingEntries.length; i++) {
               var leaderBoardItem = document.createElement("li");
               console.log(existingEntries[i]);
@@ -141,7 +154,6 @@ function startTimer() {
               leaderBoardItem.textContent =
                 reversedEntries[i].userName + ": " + reversedEntries[i].score;
               leaderBoardList.appendChild(leaderBoardItem);
-              //   console.log(localStorage.getItem("allEntries").toString());
             }
           }
         );
@@ -190,54 +202,6 @@ function fifthRound() {
         }, 200);
 
         quizComplete();
-        // var viewLeaderBoard = document.getElementById("viewLeaderBoard");
-        // submit.addEventListener("click", function (event) {
-        //   event.preventDefault();
-        //   var existingEntries = JSON.parse(localStorage.getItem("allEntries"));
-        //   if (existingEntries == null) {
-        //     existingEntries = [];
-        //   }
-        //   var entry = {
-        //     score: score,
-        //     userName: input.value,
-        //   };
-        //   console.log(entry);
-        //   localStorage.setItem("entry", JSON.stringify(entry));
-        //   existingEntries.push(entry);
-        //   localStorage.setItem("allEntries", JSON.stringify(existingEntries));
-        //   viewLeaderBoard.style.display = "flex";
-        //   viewLeaderBoard.addEventListener(
-        //     "click",
-
-        //     function () {
-        //       var startOverBtn = document.getElementById("startOver");
-        //       startOverBtn.classList.add("button");
-
-        //       pageContent.append(startOver);
-        //       startOver.addEventListener("click", function () {
-        //         document.location.reload();
-        //       });
-        //       existingEntries.sort((a, b) => {
-        //         return a.score - b.score;
-        //       });
-        //       reversedEntries = existingEntries.reverse();
-        //       pageContent.style.display = "none";
-        //       var leaderBoardContent = document.getElementById("leader-board");
-        //       leaderBoardContent.style.display = "flex";
-        //       leaderBoardContent.style.display = "flex";
-
-        //   for (i = 0; i < existingEntries.length; i++) {
-        //     var leaderBoardItem = document.createElement("li");
-        //     console.log(existingEntries[i]);
-        //     console.log(existingEntries[i].userName);
-        //     leaderBoardItem.textContent =
-        //       reversedEntries[i].userName + ": " + reversedEntries[i].score;
-        //     leaderBoardList.appendChild(leaderBoardItem);
-        //   console.log(localStorage.getItem("allEntries").toString());
-        //   }
-        // }
-        //   );
-        // });
       } else if (event.currentTarget.classList.contains("correct.5")) {
         console.log("correct.5");
         score += 1;
@@ -253,55 +217,6 @@ function fifthRound() {
         }, 200);
 
         quizComplete();
-        // var viewLeaderBoard = document.getElementById("viewLeaderBoard");
-        // submit.addEventListener("click", function (event) {
-        //   event.preventDefault();
-        //   var existingEntries = JSON.parse(localStorage.getItem("allEntries"));
-        //   if (existingEntries == null) {
-        //     existingEntries = [];
-        //   }
-        //   var entry = {
-        //     score: score,
-        //     userName: input.value,
-        //   };
-        //   console.log(entry);
-        //   localStorage.setItem("entry", JSON.stringify(entry));
-        //   existingEntries.push(entry);
-        //   localStorage.setItem("allEntries", JSON.stringify(existingEntries));
-        //   viewLeaderBoard.style.display = "flex";
-        //   viewLeaderBoard.addEventListener(
-        //     "click",
-
-        //     function () {
-        //       var startOverBtn = document.getElementById("startOver");
-        //       startOverBtn.classList.add("button");
-
-        //       pageContent.append(startOver);
-        //       startOver.addEventListener("click", function () {
-        //         document.location.reload();
-        //       });
-        //       existingEntries.sort((a, b) => {
-        //         return a.score - b.score;
-        //       });
-        //       reversedEntries = existingEntries.reverse();
-        //       console.log(existingEntries.length);
-        //       console.log(existingEntries);
-        //       pageContent.style.display = "none";
-        //       var leaderBoardContent = document.getElementById("leader-board");
-        //       leaderBoardContent.style.display = "flex";
-        //       leaderBoardContent.style.display = "flex";
-        //       for (i = 0; i < existingEntries.length; i++) {
-        //         var leaderBoardItem = document.createElement("li");
-        //         console.log(existingEntries[i]);
-        //         console.log(existingEntries[i].userName);
-        //         leaderBoardItem.textContent =
-        //           reversedEntries[i].userName + ": " + reversedEntries[i].score;
-        //         leaderBoardList.appendChild(leaderBoardItem);
-        //         //   console.log(localStorage.getItem("allEntries").toString());
-        //       }
-        // }
-        //   );
-        // });
       }
     });
   }
